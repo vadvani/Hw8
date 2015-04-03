@@ -229,7 +229,7 @@ static char* treeDeleteMin(struct node **root) {
 		retString = (*root)->key;
 		toFree = *root;
 		*root = (*root)->child[RIGHT]; /*since removing this root, if it has a right child --> have root point to right child*/
-		free(toFree->key);
+		/*free(toFree->key); - CAN'T FREE THIS STRING - WE'RE RETURNING IT*/
 		free(toFree);
 	}
 	/*now that we've removed something --> need to fix data
