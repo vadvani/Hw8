@@ -137,18 +137,18 @@ static void treeRebalance(struct node **root) {
 /*This function takes in a pointer to the root of a tree, and a target string
 and returns 0 if the string is not contained in the tree and 1 if it is*/
 /*this equality assignment okay???*/
-static int treeContains (const struct node *root, char* target) {
+/*static int treeContains (const struct node *root, char* target) {
 	int equality;
 	while ((root != 0) && ((equality = strcmp(root->key, target)) != 0)) {
 		if (equality>0) { /*root > target --> go left*/
-			root = root->child[LEFT];
+		/*	root = root->child[LEFT];
 		} else {
 			root = root->child[RIGHT];
 		}
 	}
 
 	return (root != 0);
-}
+}*/
 
 /* free all elements of a tree, replacing it with TREE_EMPTY */
 static void treeDestroy(struct node **root) {
