@@ -277,7 +277,7 @@ static void operateFilter(struct orderedSet *s, struct node *root, int (*predica
 	}
 }
 
-static struct orderedSet *setFilter(struct orderedSet *s2, struct node *root, int (*predicate)(void *arg, const char* c), void *arg) {
+static void orderedSet *setFilter(struct orderedSet *s2, struct node *root, int (*predicate)(void *arg, const char* c), void *arg) {
 
 	if (root != 0) {
 		if(root->child[LEFT]) {
@@ -288,15 +288,13 @@ static struct orderedSet *setFilter(struct orderedSet *s2, struct node *root, in
 			setFilter(s2, root->child[RIGHT], predicate, arg);
 		}
 	}
-
-	return s2;
 	
 }
 
 struct orderedSet *orderedSetFilter(const struct orderedSet *s, int (*predicate)(void *arg, const char* c), void *arg) {
 	struct orderedSet *s2;
 	s2 = orderedSetCreate();
-	s2 = setFilter(s2, s->set, predicate, arg);
+	setFilter(s2, s->set, predicate, arg);
 
 	return s2;
 }
