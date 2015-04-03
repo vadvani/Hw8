@@ -26,7 +26,7 @@ struct orderedSet *orderedSetCreate(void) {
 	struct orderedSet *s;
  	s = malloc(sizeof(struct orderedSet));
 	assert(s);
-	orderedSet->set = TREE_EMPTY; /*THIS RIGHT???*/
+	s->set = TREE_EMPTY; /*THIS RIGHT???*/
 	return s;
 }
 
