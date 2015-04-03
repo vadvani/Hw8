@@ -23,7 +23,7 @@ struct orderedSet {
 
 /*CHECK POINTERS HERE*/
 struct orderedSet *orderedSetCreate(void) {
-	struct orderedSet* s;
+	struct orderedSet *s;
  	s = malloc(sizeof(struct orderedSet));
 	assert(s);
 	orderedSet->set = TREE_EMPTY; /*THIS RIGHT???*/
@@ -279,17 +279,17 @@ static void operateFilter(struct orderedSet *s, struct node *root, int (*predica
 	}
 }
 
-static struct orderedSet *setFilter(struct node *root, int (*predicate)(void *arg, const char *c), void *arg) {
+static struct orderedSet *setFilter(struct node *root, int (*predicate)(void *arg, const char* c), void *arg) {
 	struct orderedSet *s2;
 	s2 = orderedSetCreate;
 
 	if (root != 0) {
 		if(root->child[LEFT]) {
-			setFilter(root->child[LEFT], predicate(arg, c), arg);
+			setFilter(root->child[LEFT], predicate, arg);
 		}
-		operateFilter(s2, root, predicate(arg, c), arg);
+		operateFilter(s2, root, predicate, arg);
 		if(root->child[RIGHT]) {
-			setFilter(root->child[RIGHT], predicate(arg, c), arg);
+			setFilter(root->child[RIGHT], predicate, arg);
 		}
 	}
 
@@ -297,9 +297,9 @@ static struct orderedSet *setFilter(struct node *root, int (*predicate)(void *ar
 	
 }
 
-struct orderedSet *orderedSetFilter(const struct orderedSet *s, int (*predicate)(void *arg, const char *c), void *arg) {
+struct orderedSet *orderedSetFilter(const struct orderedSet *s, int (*predicate)(void *arg, const char* c), void *arg) {
 	struct orderedSet *s2;
-	s2 = setFilter(s->set, predicate(arg, c), arg);
+	s2 = setFilter(s->set, predicate, arg);
 
 	return s2;
 }
