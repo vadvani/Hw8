@@ -4,7 +4,7 @@
 #include <assert.h>
 
 #define LEFT (0)
-#define RIGHT(1)
+#define RIGHT (1)
 
 #define TREE_EMPTY (0)
 #define TREE_EMPTY_HEIGHT (-1)
@@ -18,7 +18,7 @@ struct node {
 
 /*CHECK POINTER STUFF WITH ORDERED SET, NEED DOUBLE OR SINGLE POINTER???*/
 struct orderedSet {
-	struct *node set; /*pointer to root of set*/
+	struct node *set; /*pointer to root of set*/
 };
 
 /*CHECK POINTERS HERE*/
@@ -81,7 +81,7 @@ static int treeCalcHeight (const struct node *root) {
 static void treeFix (struct node *root) {
 	if (root) {
 		root->height = treeCalcHeight(root);
-		root-size = treeCalcSize(root);
+		root->size = treeCalcSize(root);
 	}
 }
 
@@ -170,7 +170,7 @@ static void treeInsert(struct node **root, char* newElement) {
 	int equality;
 
 	if ((*root) == TREE_EMPTY) { /*if nothing in the root, just insert newElement there*/
-		e = malloc(size of (struct node));
+		e = malloc(sizeof (struct node));
 		assert(e);
 		e->key = newElement;
 		e->child[LEFT] = 0;
@@ -225,7 +225,7 @@ static char* treeDeleteMin(struct node **root) {
 	} else {
 		retString = (*root)->key;
 		toFree = *root;
-		*root = *root->child[RIGHT]; /*since removing this root, if it has a right child --> have root point to right child*/
+		*root = (*root)->child[RIGHT]; /*since removing this root, if it has a right child --> have root point to right child*/
 		free(toFree->key);
 		free(toFree);
 	}
@@ -241,7 +241,7 @@ static char* treeDeleteMin(struct node **root) {
 /*This function takes in a pointer to a pointer to the root of a tree
 and a target string and deletes the target string from the tree
 if it exists there*/
-static void treeDelete (struct node **root, char* target) {
+static void treeDelete (struct node **root, const char* target) {
 	struct node *toFree;
 	int equality;
 	if (*root) {
