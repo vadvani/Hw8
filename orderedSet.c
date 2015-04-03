@@ -119,7 +119,7 @@ static void treeRebalance(struct node **root) {
                 /* check if zig-zag: opposite-direction nephew is the tall one */
                 /* this also covers case where both nephews are too tall */
                 if(treeHeight((*root)->child[tallerKid]->child[!tallerKid]) 
-                            >= treeHeight((*root)->child[tallerKid] - 1)) {
+                            >= treeHeight((*root)->child[tallerKid]) - 1) {
                     /* zig zag case */
                     treeRotate(&(*root)->child[tallerKid], !tallerKid);
                 }
