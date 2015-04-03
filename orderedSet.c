@@ -158,7 +158,7 @@ static void treeDestroy(struct node **root) {
 	}
 }
 
-void orderedSetDestory (struct orderedSet *s) {
+void orderedSetDestroy (struct orderedSet *s) {
 	treeDestroy(&(s->set)); /*free tree in orderedSet struct*/
 	free(s); /*freeSet*/
 }
