@@ -173,6 +173,9 @@ static void treeInsert(struct node **root, char* newElement) {
 		if (equality < 0) { /*root < newElem --> right subtree*/
 			treeInsert(&(*root)->child[RIGHT], newElement);
 		}
+		if (equality == 0) { /*newElem already exists in tree --> need to free memory we're using for this string*/
+			free(newElement);
+		}
 	}
 		
 	/*fix data and rebalance on way out*/
