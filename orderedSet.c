@@ -32,7 +32,12 @@ struct orderedSet *orderedSetCreate(void) {
 
 /*CHECK POINTERS HERE*/
 size_t orderedSetSize(const struct orderedSet *s) {
-	return s->set->size;
+	if (s->set) {
+		return s->set->size;
+	}
+	else {
+		return 0;
+	}
 }
 
 static int treeHeight(const struct node *root) {
