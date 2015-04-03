@@ -235,6 +235,7 @@ static void treeDelete (struct node **root, const char* target) {
 	if (*root) {
 		if((equality = strcmp((*root)->key, target)) == 0) { /*if the root and target are same*/
 			if ((*root)->child[RIGHT]) {
+				free((*root)->key); /*free key currently there, so we can set key to right child value*/
 				(*root)->key = treeDeleteMin(&(*root)->child[RIGHT]);
 			} else { /*need to delete root*/
 				toFree = *root;
