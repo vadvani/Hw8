@@ -277,7 +277,7 @@ static void operateFilter(struct orderedSet *s, struct node *root, int (*predica
 	}
 }
 
-static void orderedSet *setFilter(struct orderedSet *s2, struct node *root, int (*predicate)(void *arg, const char* c), void *arg) {
+static void setFilter(struct orderedSet *s2, struct node *root, int (*predicate)(void *arg, const char* c), void *arg) {
 
 	if (root != 0) {
 		if(root->child[LEFT]) {
