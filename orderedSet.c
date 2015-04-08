@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include "orderedSet.h"
 
 #define LEFT (0)
 #define RIGHT (1)
@@ -15,9 +16,6 @@ Due: April 8 2015
 Citation: AVL tree code modified from AVL tree section of Aspnes, Lecture Notes on Data Structures
  and Programming Techniques, available at http://www.cs.yale.edu/homes/aspnes/classes/223/notes.html, 
  downloaded April 3rd 2015. */
-
- /*Things to figure out:
- /*WILL HE EVER TRY TO PASS IN AN EMPTY STRING IN ORDEREDSETINSERT*/
 
 /*struct for nodes of AVL tree used to represent the ordered set*/
 struct node {
@@ -262,7 +260,7 @@ static char* treeDeleteMin(struct node **root) {
 /*This function takes in a pointer to a pointer to the root of a tree
 and a target string and deletes the target string from the tree
 if it exists there*/
-static void treeDelete (struct node **root, const char* target) {
+static void treeDelete (struct node **root, char* target) {
 	struct node *toFree; /*pointer to the node we're deleting/freeing*/
 	int equality; /*integer to store results of strcmp*/
 	if (*root) { /*if root exists*/
