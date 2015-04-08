@@ -260,7 +260,7 @@ static char* treeDeleteMin(struct node **root) {
 /*This function takes in a pointer to a pointer to the root of a tree
 and a target string and deletes the target string from the tree
 if it exists there*/
-static void treeDelete (struct node **root, char* target) {
+static void treeDelete (struct node **root, const char* target) {
 	struct node *toFree; /*pointer to the node we're deleting/freeing*/
 	int equality; /*integer to store results of strcmp*/
 	if (*root) { /*if root exists*/
