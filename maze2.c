@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
-#include "maze.h"
 
 typedef struct stackElem *Stack;
 
@@ -243,6 +242,6 @@ int main (int argc, char** argv) {
 	}
 	
 	printImage(i);
-	
+
 	return 0;
 }
