@@ -147,7 +147,7 @@ int nonDeadNeighbors(const struct image* i, const int row, const int col) {
 	int count;
 	int initialk;
 	int initialj;
-	int count = 0;
+	count = 0;
 	if ((row - 1) >= 0) {
 		initialk = row - 1;
 	}else {
