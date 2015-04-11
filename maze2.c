@@ -197,7 +197,7 @@ void findNeighbor(struct image* i, struct position* p) {
 	}	
 
 	for (int k = initialk; (k <= initialCol + 1) && (k < i->height); k++) {
-		for (int j = initialj; (j <= intialRow + 1) && (j < i->width); j++) {
+		for (int j = initialj; (j <= initialRow + 1) && (j < i->width); j++) {
 			if ((j==initialCol) && (k==initialRow)) {
 				continue;
 			} else if ((i->image[k][j] != 0) && (i->image[k][j] != -1)) { /*found the nondead neighbor*/
