@@ -100,7 +100,7 @@ void printImage(struct image* i) {
 int countNeighbors(struct image* i, int row, int col) {
 	int count;
 	count = 0;
-	int initalk;
+	int initialk;
 	int initialj;
 
 	if ((row - 1) >= 0) {
@@ -152,7 +152,7 @@ struct position* findStartPt (struct image* i) {
 /*dead neighbors = -1. visited = 2; enqueued = 3; untouched = 0 or 1*/
 int nonDeadNeighbors(const struct image* i, const int row, const int col) {
 	int count;
-	int initalk;
+	int initailk;
 	int initialj;
 
 	if ((row - 1) >= 0) {
@@ -183,7 +183,7 @@ int nonDeadNeighbors(const struct image* i, const int row, const int col) {
 of the deadend node*/
 void findNeighbor(struct image* i, struct position* p) {
 	/*first we need to find the single, non-dead neighbor (visited node we used to reach this dead end)*/
-	int initalk;
+	int initialk;
 	int initialj;
 
 	if ((p->row - 1) >= 0) {
@@ -213,7 +213,7 @@ void findNeighbor(struct image* i, struct position* p) {
 }
 
 void setEnqueue(struct image* i, int row, int col) {
-	int initalk;
+	int initialk;
 	int initialj;
 
 	if ((row - 1) >= 0) {
@@ -262,7 +262,7 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 		}
 	} else { /*more than one non-dead neighbor -> mark current node as visited, and enqueue all non-dead, non-visited, non-enqueued neighbors*/
 		i->image[p->row][p->col] = 2;
-		int initalk;
+		int initialk;
 		int initialj;
 
 		if ((p->row - 1) >= 0) {
