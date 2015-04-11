@@ -257,6 +257,7 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 			i->image[p->row][p->col] = 3; /*mark this as enqueued*/
 			/*now push location it onto stack*/
 			stackPush(s, p->row, p->col);
+			queueCount++; /*DO I NEED THIS???*/
 		}
 	} else { /*more than one non-dead neighbor -> mark current node as visited, and enqueue all non-dead, non-visited, non-enqueued neighbors*/
 		i->image[p->row][p->col] = 2;
@@ -292,8 +293,12 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 		}
 		if (queueCount == 0) { /*didn't enqueue anything --> in a loop --> need to find the enqueued element that's a neighbor, and mark it as visited with 2, then stop*/
 			setEnqueue(i, p->row, p->col); /*IS THIS THE LOCATION WE'RE SUPPOSED TO BE INPUTTING?*/
-			return 1; /*return 1 to indicate you've found the loop*/
+			/*return 1; /*return 1 to indicate you've found the loop*/
 		}
+	}
+
+	if ((queueCount == 0) && (stackEmpty(s))) {
+		return 1;
 	}
 	return 0; /*if you get to here --> enqNeighbors finished, no loop found, so 0 was returned, keep searching*/
 }
