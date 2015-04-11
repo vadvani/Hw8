@@ -291,10 +291,10 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 			
 			}
 		}
-		if (queueCount == 0) { /*didn't enqueue anything --> in a loop --> need to find the enqueued element that's a neighbor, and mark it as visited with 2, then stop*/
-			setEnqueue(i, p->row, p->col); /*IS THIS THE LOCATION WE'RE SUPPOSED TO BE INPUTTING?*/
+		/*if (queueCount == 0) { /*didn't enqueue anything --> in a loop --> need to find the enqueued element that's a neighbor, and mark it as visited with 2, then stop*/
+		/*	setEnqueue(i, p->row, p->col); /*IS THIS THE LOCATION WE'RE SUPPOSED TO BE INPUTTING?*/
 			/*return 1; /*return 1 to indicate you've found the loop*/
-		}
+		/*}*/
 	}
 
 	if ((queueCount == 0) && (stackEmpty(s))) {
