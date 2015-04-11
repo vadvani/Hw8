@@ -293,6 +293,14 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 	return 0; /*if you get to here --> enqNeighbors finished, no loop found, so 0 was returned, keep searching*/
 }
 
+void printImage(struct image* i) {
+	printf("P5 %d %d 255\n", i->width, i->height);
+	for (int j=0; j < i->height; j++) {
+		for (int k=0; k < i->width; k++) {
+			printf("%d", i->image[j][k]);
+		}
+	}
+}
 
 
 int main (int argc, char** argv) {
