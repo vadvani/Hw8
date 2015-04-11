@@ -99,8 +99,8 @@ void printImage(struct image* i) {
 }
 int countNeighbors(struct image* i, int row, int col) {
 	 int count;
-	 for (int k = row - 1; k <= row + 1; k++) {
-	 	for (int j = col - 1; j <= col + 1; j++) {
+	 for (int k = row - 1; (k <= row + 1) || (k < i->height); k++) {
+	 	for (int j = col - 1; (j <= col + 1) || (j < i->width); j++) {
 	 		if ((j == col) && (k == row)) {
 	 			continue;
 	 		} else {
