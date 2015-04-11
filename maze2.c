@@ -72,17 +72,17 @@ struct image* imageCreate(void) {
 
 	scanf ("P5 %d %d 255\n", &(i->width), &(i->height));
 	
-	i->image = malloc(sizeof(int*) * height); /*using right sizeof here???*/
+	i->image = malloc(sizeof(int*) * i->height); /*using right sizeof here???*/
 	assert(i->image);
 	for (int j = 0; j < i->width; j++) {
-		i->image[j] = malloc(sizeof(int) * width);
+		i->image[j] = malloc(sizeof(int) * i->width);
 		assert(i->image[j]);
 	}
 
 	for (int j=0; j<height; j++) {
 		for (int k=0; k<width; k++) {
 			c = getchar();
-			i->image[j][k].val = c;
+			i->image[j][k] = c;
 		}
 	}
 
@@ -91,20 +91,20 @@ struct image* imageCreate(void) {
 
 void printImage(struct image* i) {
 	printf("P5 %d %d 255\n", i->width, i->height);
-	for (int j=0; j<height; j++) {
-		for (int k=0; k<width; k++) {
+	for (int j=0; j < i->height; j++) {
+		for (int k=0; k < i->width; k++) {
 			printf("%d", i->image[j][k]);
 		}
 	}
 }
 int countNeighbors(struct image* i, int row, int col) {
 	 int count;
-	 for (int i = row - 1; i <= row + 1; i++) {
+	 for (int k = row - 1; k <= row + 1; k++) {
 	 	for (int j = col - 1; j <= col + 1; j++) {
-	 		if ((j == col) && (i == row)) {
+	 		if ((j == col) && (k == row)) {
 	 			continue;
 	 		} else {
-	 			if (i->image[i][j] != 0) {
+	 			if (i->image[k][j] != 0) {
 	 				count++;
 	 			}
 	 		}
@@ -136,11 +136,11 @@ struct position* findStartPt (struct image* i) {
 /*dead neighbors = -1. visited = 2; enqueued = 3; untouched = 0 or 1*/
 int nonDeadNeighbors(const struct image* i, const int row, const int col) {
 	int count;
-	 for (int i = row - 1; i <= row + 1; i++) {
+	 for (int k = row - 1; k <= row + 1; k++) {
 	 	for (int j = col - 1; j <= col + 1; j++) {
-	 		if ((j == col) && (i == row)) {
+	 		if ((j == col) && (k == row)) {
 	 			continue;
-	 		} else if (i->image[i][j] > 0) { /*neighbor is not dead and is not a wall*/
+	 		} else if (i->image[k][j] > 0) { /*neighbor is not dead and is not a wall*/
 	 			count++;
 	 		}
 	 	}
@@ -152,12 +152,12 @@ int nonDeadNeighbors(const struct image* i, const int row, const int col) {
 of the deadend node*/
 void findNeighbor(struct image* i, struct position* p) {
 	/*first we need to find the single, non-dead neighbor (visited node we used to reach this dead end)*/
-	for (int i = p->row - 1; i <= p->row + 1; i++) {
+	for (int k = p->row - 1; k <= p->row + 1; k++) {
 		for (int j = p->col - 1; j <= p->col + 1; j++) {
-			if ((j==p->col) && (i==p->row)) {
+			if ((j==p->col) && (k==p->row)) {
 				continue;
-			} else if (i->image[i][j] != -1) { /*found the nondead neighbor*/
-				p->row = i; /*set position struct to contain neighbor coordinates*/
+			} else if (i->image[k][j] != -1) { /*found the nondead neighbor*/
+				p->row = k; /*set position struct to contain neighbor coordinates*/
 				p->col = j;
 
 			}
@@ -183,8 +183,8 @@ void setEnqueue(struct image* i, int row, int col) {
 int enqNeighbors (struct image* i, Stack s, struct position* p) {
 	int count;
 	int queueCount;
-	int count = 0;
-	int queueCount = 0;
+	count = 0;
+	queueCount = 0;
 	count = nonDeadNeighbors(i, p->row, p->col);
 	if (count == 1) { /*only one non-dead neighbor --> need to mark this current spot as dead and then figure out whether need to backtrack or not*/
 		i->image[p->row][p->col] = -1; /*mark this node as dead-end*/
@@ -195,7 +195,7 @@ int enqNeighbors (struct image* i, Stack s, struct position* p) {
 				findNeighbor(i, p);
 			}
 		} else { /*otherwise, single non-dead neighbor needs to be enqueued and marked as enqueued, we know neighbor is in position p*/
-			i->[p->row][p->col] = 3; /*mark this as enqueued*/
+			i->image[p->row][p->col] = 3; /*mark this as enqueued*/
 			/*now push location it onto stack*/
 			stackPush(&s, p->row, p->col);
 		}
