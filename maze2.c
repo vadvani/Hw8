@@ -178,6 +178,11 @@ void findNeighbor(struct image* i, struct position* p) {
 	/*first we need to find the single, non-dead neighbor (visited node we used to reach this dead end)*/
 	int initialk;
 	int initialj;
+	int initialCol;
+	int initialRow;
+
+	initialCol = p->col;
+	initialRow = p->row;
 
 	if ((p->row - 1) >= 0) {
 		initialk = p->row - 1;
@@ -191,9 +196,9 @@ void findNeighbor(struct image* i, struct position* p) {
 		initialj = 0;
 	}	
 
-	for (int k = initialk; (k <= p->row + 1) && (k < i->height); k++) {
-		for (int j = initialj; (j <= p->col + 1) && (j < i->width); j++) {
-			if ((j==p->col) && (k==p->row)) {
+	for (int k = initialk; (k <= initialCol + 1) && (k < i->height); k++) {
+		for (int j = initialj; (j <= intialRow + 1) && (j < i->width); j++) {
+			if ((j==initialCol) && (k==initialRow)) {
 				continue;
 			} else if ((i->image[k][j] != 0) && (i->image[k][j] != -1)) { /*found the nondead neighbor*/
 				p->row = k; /*set position struct to contain neighbor coordinates*/
