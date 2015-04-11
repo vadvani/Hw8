@@ -89,14 +89,7 @@ struct image* imageCreate(void) {
 	return i;
 }
 
-void printImage(struct image* i) {
-	printf("P5 %d %d 255\n", i->width, i->height);
-	for (int j=0; j < i->height; j++) {
-		for (int k=0; k < i->width; k++) {
-			printf("%d", i->image[j][k]);
-		}
-	}
-}
+
 int countNeighbors(struct image* i, int row, int col) {
 	int count;
 	count = 0;
@@ -202,7 +195,7 @@ void findNeighbor(struct image* i, struct position* p) {
 		for (int j = initialj; (j <= p->col + 1) && (j < i->width); j++) {
 			if ((j==p->col) && (k==p->row)) {
 				continue;
-			} else if (i->image[k][j] != -1) { /*found the nondead neighbor*/
+			} else if ((i->image[k][j] != 0) && (i->image[k][j] != -1)) { /*found the nondead neighbor*/
 				p->row = k; /*set position struct to contain neighbor coordinates*/
 				p->col = j;
 
