@@ -1,13 +1,11 @@
 CC=gcc
 CFLAGS=-std=c99 -Wall -pedantic -g3
 
-all: testOrderedSet
+all: maze
 
-testOrderedSet: testOrderedSet.o orderedSet.o
+maze: maze.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-testOrderedSet.o: testOrderedSet.c orderedSet.h
+maze.o: maze.c maze.h
 
-orderedSet.o: orderedSet.c orderedSet.h
-
-clean: $(RM) testOrderedSet *.o
+clean: $(RM) maze *.o
