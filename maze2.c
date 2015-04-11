@@ -98,10 +98,25 @@ void printImage(struct image* i) {
 	}
 }
 int countNeighbors(struct image* i, int row, int col) {
-	 int count;
-	 count = 0;
-	 for (int k = row - 1; (k <= row + 1) && (k < i->height); k++) {
-	 	for (int j = col - 1; (j <= col + 1) && (j < i->width); j++) {
+	int count;
+	count = 0;
+	int initalk;
+	int initialj;
+
+	if ((row - 1) >= 0) {
+		initialk = row - 1;
+	}else {
+		initialk = 0;
+	}
+
+	if ((col - 1) >= 0) {
+		initialj = col - 1;
+	} else {
+		initialj = 0;
+	}
+
+	 for (int k = initialk; (k <= row + 1) && (k < i->height); k++) {
+	 	for (int j = initialj; (j <= col + 1) && (j < i->width); j++) {
 	 		if ((j == col) && (k == row)) {
 	 			continue;
 	 		} else {
@@ -123,8 +138,8 @@ struct position* findStartPt (struct image* i) {
 	p = malloc(sizeof(struct position));
 	assert(p);
 
-	for (int j = 1; j < i->height; j++) {
-		for (int k = 1; k < i->width; k++) {
+	for (int j = 0; j < i->height; j++) {
+		for (int k = 0; k < i->width; k++) {
 			if (countNeighbors(i, j, k) == 1) {
 				p->row = j;
 				p->col = k;
@@ -137,8 +152,23 @@ struct position* findStartPt (struct image* i) {
 /*dead neighbors = -1. visited = 2; enqueued = 3; untouched = 0 or 1*/
 int nonDeadNeighbors(const struct image* i, const int row, const int col) {
 	int count;
-	 for (int k = row - 1; (k <= row + 1) && (k < i->height); k++) {
-	 	for (int j = col - 1; (j <= col + 1) && (j < i->width); j++) {
+	int initalk;
+	int initialj;
+
+	if ((row - 1) >= 0) {
+		initialk = row - 1;
+	}else {
+		initialk = 0;
+	}
+
+	if ((col - 1) >= 0) {
+		initialj = col - 1;
+	} else {
+		initialj = 0;
+	}
+
+	 for (int k = initialk; (k <= row + 1) && (k < i->height); k++) {
+	 	for (int j = initialj; (j <= col + 1) && (j < i->width); j++) {
 	 		if ((j == col) && (k == row)) {
 	 			continue;
 	 		} else if (i->image[k][j] > 0) { /*neighbor is not dead and is not a wall*/
@@ -153,8 +183,23 @@ int nonDeadNeighbors(const struct image* i, const int row, const int col) {
 of the deadend node*/
 void findNeighbor(struct image* i, struct position* p) {
 	/*first we need to find the single, non-dead neighbor (visited node we used to reach this dead end)*/
-	for (int k = p->row - 1; (k <= p->row + 1) && (k < i->height); k++) {
-		for (int j = p->col - 1; (j <= p->col + 1) && (j < i->width); j++) {
+	int initalk;
+	int initialj;
+
+	if ((p->row - 1) >= 0) {
+		initialk = p->row - 1;
+	}else {
+		initialk = 0;
+	}
+
+	if ((p->col - 1) >= 0) {
+		initialj = p->col - 1;
+	} else {
+		initialj = 0;
+	}	
+
+	for (int k = initialk; (k <= p->row + 1) && (k < i->height); k++) {
+		for (int j = initialj; (j <= p->col + 1) && (j < i->width); j++) {
 			if ((j==p->col) && (k==p->row)) {
 				continue;
 			} else if (i->image[k][j] != -1) { /*found the nondead neighbor*/
@@ -168,8 +213,23 @@ void findNeighbor(struct image* i, struct position* p) {
 }
 
 void setEnqueue(struct image* i, int row, int col) {
-	for (int j = row - 1; (j <= row + 1) && (j < i->height); j++) {
-		for (int k = col - 1; (k <= col + 1) && (k < i->width); k++) {
+	int initalk;
+	int initialj;
+
+	if ((row - 1) >= 0) {
+		initialj = row - 1;
+	}else {
+		initialj = 0;
+	}
+
+	if ((col - 1) >= 0) {
+		initialk = col - 1;
+	} else {
+		initialk = 0;
+	}
+
+	for (int j = initialj; (j <= row + 1) && (j < i->height); j++) {
+		for (int k = initialk; (k <= col + 1) && (k < i->width); k++) {
 			if ((j==row) && (k==col)) { /*DO I EVEN NEED THIS???*/
 				continue;
 			}
@@ -202,8 +262,23 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 		}
 	} else { /*more than one non-dead neighbor -> mark current node as visited, and enqueue all non-dead, non-visited, non-enqueued neighbors*/
 		i->image[p->row][p->col] = 2;
-		for (int j = p->row - 1; (j <= p->row + 1) && (j < i->height); j++) {
-			for (int k = p->col - 1; (k <= p->col + 1) && (k < i->width); k++) {
+		int initalk;
+		int initialj;
+
+		if ((p->row - 1) >= 0) {
+			initialj = p->row - 1;
+		}else {
+			initialj = 0;
+		}
+
+		if ((p->col - 1) >= 0) {
+			initialk = p->col - 1;
+		} else {
+			initialk = 0;
+		}
+
+		for (int j = initialj; (j <= p->row + 1) && (j < i->height); j++) {
+			for (int k = initialk; (k <= p->col + 1) && (k < i->width); k++) {
 				
 				if ((j == p->row) && (k == p->col)) {
 					continue;
