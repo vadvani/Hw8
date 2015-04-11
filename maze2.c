@@ -316,6 +316,13 @@ void printImage(struct image* i) {
 	}
 }
 
+void freeImage(struct image* i) {
+	for (int j=0; j < i->height; j++) {
+		free(i->image[j]);
+		free(i->image);
+		free(i);
+	}
+}
 
 int main (int argc, char** argv) {
 
@@ -333,6 +340,7 @@ int main (int argc, char** argv) {
 	}
 	
 	printImage(i);
+	freeImage(i);
 
 	return 0;
 }
