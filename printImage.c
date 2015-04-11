@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <assert.h>
 
+struct image{
+	int width;
+	int height;
+	int** image;
+};
+
 struct image* imageCreate(void) {
 	struct image* i;
 	int c;
