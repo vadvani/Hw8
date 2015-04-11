@@ -319,9 +319,9 @@ void printImage(struct image* i) {
 void freeImage(struct image* i) {
 	for (int j=0; j < i->height; j++) {
 		free(i->image[j]);
-		free(i->image);
-		free(i);
 	}
+	free(i->image);
+	free(i);
 }
 
 int main (int argc, char** argv) {
@@ -338,6 +338,7 @@ int main (int argc, char** argv) {
 		free(p);
 		p = stackPop(&s);
 	}
+	free(p);
 	
 	printImage(i);
 	freeImage(i);
