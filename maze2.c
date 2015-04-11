@@ -79,8 +79,8 @@ struct image* imageCreate(void) {
 		assert(i->image[j]);
 	}
 
-	for (int j=0; j<height; j++) {
-		for (int k=0; k<width; k++) {
+	for (int j=0; j < i->height; j++) {
+		for (int k=0; k < i->width; k++) {
 			c = getchar();
 			i->image[j][k] = c;
 		}
