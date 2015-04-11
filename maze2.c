@@ -181,7 +181,7 @@ void setEnqueue(struct image* i, int row, int col) {
 }
 
 /*this does not necessarily preserve input position struct - is that okay???!!!*/
-int enqNeighbors (struct image* i, Stack s, struct position* p) {
+int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 	int count;
 	int queueCount;
 	count = 0;
@@ -198,7 +198,7 @@ int enqNeighbors (struct image* i, Stack s, struct position* p) {
 		} else { /*otherwise, single non-dead neighbor needs to be enqueued and marked as enqueued, we know neighbor is in position p*/
 			i->image[p->row][p->col] = 3; /*mark this as enqueued*/
 			/*now push location it onto stack*/
-			stackPush(&s, p->row, p->col);
+			stackPush(s, p->row, p->col);
 		}
 	} else { /*more than one non-dead neighbor -> mark current node as visited, and enqueue all non-dead, non-visited, non-enqueued neighbors*/
 		i->image[p->row][p->col] = 2;
@@ -211,7 +211,7 @@ int enqNeighbors (struct image* i, Stack s, struct position* p) {
 
 				if (i->image[j][k] == 1) { /*not dead, not visited, not already enqueued*/
 					i->image[j][k] = 3; /*mark it as enqueued and then push it onto stack*/
-					stackPush(&s, j, k);
+					stackPush(s, j, k);
 					queueCount++;
 				}
 			
@@ -237,7 +237,7 @@ int main (int argc, char** argv) {
 	s = 0; /*initialize the stack*/
 	p = findStartPt(i);
 
-	while (enqNeighbors(i, s, p) == 0) {
+	while (enqNeighbors(i, &s, p) == 0) {
 		free(p);
 		p = stackPop(&s);
 	}
