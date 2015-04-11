@@ -122,8 +122,8 @@ struct position* findStartPt (struct image* i) {
 	p = malloc(sizeof(struct position));
 	assert(p);
 
-	for (int j = 0; j <= i->height; j++) {
-		for (int k = 0; k <= i->width; k++) {
+	for (int j = 1; j <= i->height; j++) {
+		for (int k = 1; k <= i->width; k++) {
 			if (countNeighbors(i, j, k) == 1) {
 				p->row = j;
 				p->col = k;
