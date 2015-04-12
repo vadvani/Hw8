@@ -137,10 +137,11 @@ struct position* findStartPt (struct image* i) {
 			if (countNeighbors(i, j, k) == 1) {
 				p->row = j;
 				p->col = k;
+				goto end;
 			}
 		}
 	}
-	return p;
+	end: return p;
 }
 
 /*dead neighbors = -1. visited = 2; enqueued = 3; untouched = 0 or 1*/
