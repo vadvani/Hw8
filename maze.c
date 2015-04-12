@@ -74,7 +74,7 @@ struct image* imageCreate(void) {
 	
 	i->image = malloc(sizeof(int*) * i->height); /*using right sizeof here???*/
 	assert(i->image);
-	for (int j = 0; j < i->width; j++) {
+	for (int j = 0; j < i->height; j++) {
 		i->image[j] = malloc(sizeof(int) * i->width);
 		assert(i->image[j]);
 	}
