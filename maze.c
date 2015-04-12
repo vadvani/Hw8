@@ -126,6 +126,7 @@ int countNeighbors(const struct image* i, const int row, const int col) {
 we can start the program -> later, will take this position struct --> enqueue neighbors --> since only one neighbor --> will get set to dead value, 
 then you'll start loop of pop next node, enqueue neighbors of that, and keep adjusting the values within this position struct*/
 
+/*WHAT SHOULD THIS FUNCTION DO IF NEVER FINDS DEAD END???*/
 struct position* findStartPt (struct image* i) {
 	struct position* p;
 	p = malloc(sizeof(struct position));
@@ -136,10 +137,10 @@ struct position* findStartPt (struct image* i) {
 			if (countNeighbors(i, j, k) == 1) {
 				p->row = j;
 				p->col = k;
-				return p;
 			}
 		}
 	}
+	return p;
 }
 
 /*dead neighbors = -1. visited = 2; enqueued = 3; untouched = 0 or 1*/
