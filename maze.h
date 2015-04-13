@@ -19,6 +19,6 @@ void findNeighbor(struct image* i, struct position* p);
 
 int enqNeighbors (struct image* i, Stack *s, struct position* p);
 
-void printImage(struct image* i);
+void printImage(const struct image* i);
 
 void freeImage(struct image* i);
