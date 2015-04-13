@@ -1,4 +1,6 @@
 
+typedef struct stackElem *Stack;
+
 void stackPush (Stack *s, struct position *p);
 
 int stackEmpty (const Stack *s);

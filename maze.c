@@ -3,7 +3,6 @@
 #include <assert.h>
 #include "maze.h"
 /*to keep track of the top of the stack*/
-typedef struct stackElem *Stack;
 
 /*Veena Advani
 CPSC 223 - Hw9
