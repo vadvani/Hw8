@@ -21,7 +21,7 @@ struct image{
 	int** image;
 };
 
-void stackPush (Stack *s, struct position *p);
+void stackPush (Stack *s, int row, int col);
 
 int stackEmpty (const Stack *s);
 
