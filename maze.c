@@ -16,25 +16,6 @@ WHAT HAPPENS IF NO FIND DEAD END? - THIS IS ALWAYS POSSIBLE, RIGHT?
 dimensions of image guaranteed to be ints?
 WILL THIS ALGORITHM WORK IF THERE IS NO CYCLE???*/
 
-/*struct to keep track of the coordinate location in an array*/
-struct position {
-	int row; 
-	int col;
-};
-
-/*structs used to make up the stack in depth first search.  each stack element contains a pointer to a
-position struct and a pointer to the next element in the stack*/
-struct stackElem {
-	struct position *p;
-	struct stackElem* next;
-};
-
-/*struct to keep track of the width, height and 2D array for the image/graph*/
-struct image{
-	int width;
-	int height;
-	int** image;
-};
 
 /*this function takes a pointer to the top of the stack, a row and column number, and pushes a new
 element onto the stack with a position struct that contains those two coordinates*/
