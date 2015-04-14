@@ -7,14 +7,20 @@
 /*Veena Advani
 CPSC 223 - Hw9
 Due: April 15th, 2015
-Citation: modified stack code from CS website.
+Citation: Stack code modified from Stack section of Aspnes, Lecture Notes on Data Structures
+ and Programming Techniques, available at http://www.cs.yale.edu/homes/aspnes/classes/223/notes.html, 
+ downloaded April 10th 2015. 
 */
+
 /*THINGS TO DO:
-COMMENT
-WILL INPUT EVER BE ONE BLOCK? --> what if findStart never finds anything?  --> NEED A CATCH HERE
-WHAT HAPPENS IF NO FIND DEAD END? - THIS IS ALWAYS POSSIBLE, RIGHT?
 dimensions of image guaranteed to be ints?
-WILL THIS ALGORITHM WORK IF THERE IS NO CYCLE???*/
+WILL THIS ALGORITHM WORK IF THERE IS NO CYCLE???
+do I need to fix backtrack?
+will I ever mark enqueued as dead??? if so --> is it a problem?
+finishing stack --> guaranteed to remove tail???
+make sure not doing anything funny with find neighbors by reusing p
+remember - CAN'T CALL FINDNEIGHBORS IF NONDEAD COUNT != 1 - make sure I don't!!!
+using right sizeof's in malloc for 2D array???*/
 
 
 /*this function takes a pointer to the top of the stack, a row and column number, and pushes a new
@@ -228,10 +234,14 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 	count = 0; /*initialize count variables*/
 	queueCount = 0;
 	count = nonDeadNeighbors(i, p->row, p->col); /*count the nondead neighbors of that location*/
-	if (count == 1) { /*only one non-dead neighbor --> need to mark this current spot as dead and then figure out whether need to backtrack or not*/
+	if (count == 0) {
+		i->image[p->row][p->col] = -1; /*in edge case where graph is a straight line --> at end will have no non-dead neighbors --> hit end of chain --> dead end, should mark as -1*/
+	}
+	else if (count == 1) { /*only one non-dead neighbor --> need to mark this current spot as dead and then figure out whether need to backtrack or not*/
 		i->image[p->row][p->col] = -1; /*mark this node as dead-end*/
-		findNeighbor(i, p); /*set p to the loccation of the single neighbor*/
+		findNeighbor(i, p); /*set p to the location of the single neighbor*/
 		if (i->image[p->row][p->col] == 2) { /*single non-dead neighbor has been visited --> need to backtrack*/
+			/*DO I NEED TO FIX THIS??? --> WHAT IF 0 nondead neighbors while backtracking - will this happen? and if so --> will the one with 0 neighbors be guaranteed to have a 1 --> no problem???*/
 			while (nonDeadNeighbors(i, p->row, p->col) == 1) { /*while there is only one non-dead neighbor, set location to dead end and check the non-dead neighbor, keep going till it splits somewhere*/
 				i->image[p->row][p->col] = -1; /*if there is only one nondead number --> set location to dead end and check the next single neighbor*/
 				findNeighbor(i, p); /*find next single neighbor to check if that's a deadend*/
