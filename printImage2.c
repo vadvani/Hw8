@@ -46,6 +46,7 @@ void printImage(struct image* i) {
 int main (int argc, char** argv) {
 
 	struct image* i;
+	i = malloc(sizeof (struct image));
 	i->width = 2;
 	i->height = 3;
 	i->image = malloc(sizeof(int*) * 3);
