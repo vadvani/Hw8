@@ -48,8 +48,8 @@ int main (int argc, char** argv) {
 	struct image* i;
 	i->width = 2;
 	i->height = 3;
-	i->image = malloc(sizeof(*int) * 3);
-	for (int j = 0; j < height; j++) {
+	i->image = malloc(sizeof(int*) * 3);
+	for (int j = 0; j < i->height; j++) {
 		i->image[j] = malloc(sizeof(int) * 2);
 	}
 
