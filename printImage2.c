@@ -38,7 +38,7 @@ void printImage(struct image* i) {
 	printf("P5 %d %d 255\n", i->width, i->height);
 	for (int j=0; j < i->height; j++) {
 		for (int k=0; k < i->width; k++) {
-			printf("%d", i->image[j][k]);
+			putchar(i->image[j][k]);
 		}
 	}
 }
