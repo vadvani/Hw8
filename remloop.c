@@ -274,7 +274,7 @@ void printImage(const struct image* i) {
 			if (i->image[j][k] > 0) { /*if the value is -1 --> deadend node, not part of loop --> needs to get printed as a 1*/
 				putchar(1);
 			} else {
-				putchar(i->image[j][k]); /*otherwise print whatever is there, 2 in the loop, 1 if path or 0 if it's a wall*/
+				putchar(0); /*otherwise print whatever is there, 2 in the loop, 1 if path or 0 if it's a wall*/
 			}
 		}
 	}
