@@ -256,12 +256,13 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 		}
 		if (queueCount == 0) { /*didn't add anything --> in loop*/
 			i->image[p->row][p->col] = 0;
+			return 1;
 		}
 	}
 
-	if (/*(queueCount == 0) &&*/(stackEmpty(s))) { /*need the queueCount check? -> if stackEmpty --> haven't enqueued anything...*/
-		return 1; /*if stack is empty --> search is finished --> return 1*/
-	}
+	/*if (/*(queueCount == 0) &&(stackEmpty(s))) { /*need the queueCount check? -> if stackEmpty --> haven't enqueued anything...*/
+		/*return 1; /*if stack is empty --> search is finished --> return 1*/
+	/*}*/
 	return 0; /*if you get to here --> enqNeighbors finished, no loop found, so 0 was returned, keep searching*/
 }
 
