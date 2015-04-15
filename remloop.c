@@ -254,15 +254,11 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 			
 			}
 		}
-		if (queueCount == 0) { /*didn't add anything --> in loop*/
-			i->image[p->row][p->col] = 0;
-			return 1;
-		}
 	}
 
-	/*if (/*(queueCount == 0) &&(stackEmpty(s))) { /*need the queueCount check? -> if stackEmpty --> haven't enqueued anything...*/
-		/*return 1; /*if stack is empty --> search is finished --> return 1*/
-	/*}*/
+	if (/*(queueCount == 0) &&(*/stackEmpty(s)) { /*need the queueCount check? -> if stackEmpty --> haven't enqueued anything...*/
+		return 1; /*if stack is empty --> search is finished --> return 1*/
+	}
 	return 0; /*if you get to here --> enqNeighbors finished, no loop found, so 0 was returned, keep searching*/
 }
 
@@ -271,9 +267,9 @@ void printImage(const struct image* i) {
 	printf("P5 %d %d 255\n", i->width, i->height); /*print header*/
 	for (int j=0; j < i->height; j++) { /*iterate through image 2D array*/
 		for (int k=0; k < i->width; k++) {
-			if (i->image[j][k] > 0) { /*if the value is -1 --> deadend node, not part of loop --> needs to get printed as a 1*/
+			if ((i->image[j][k] == -1) || (i->image[j][k] == 3) || (i->image[j][k] == 1)) { /*if the value is -1 --> deadend node, not part of loop --> needs to get printed as a 1*/
 				putchar(1);
-			} else {
+			} else if {
 				putchar(0); /*otherwise print whatever is there, 2 in the loop, 1 if path or 0 if it's a wall*/
 			}
 		}
