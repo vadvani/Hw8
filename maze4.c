@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <assert.h>
 #include "maze.h"
-/*to keep track of the top of the stack*/
 
 /*Veena Advani
 CPSC 223 - Hw9
@@ -15,17 +14,7 @@ Citation: Stack code modified from Stack section of Aspnes, Lecture Notes on Dat
 /*THINGS TO DO:
 -check enqFunction - for general coding problems AND logic problems
 -make sure not doing anything funny with find neighbors by reusing p
--ask Sam about p pointer in stackPush function and is it okay that using getchar? -> assuming char and int values the same???
--in findStartPt function - end: label --> will it still return p in case that p is 0?
--question about getchar values in createImage
-ALGORITHM ANALYSIS:
--WILL THIS ALGORITHM ALWAYS WORK IF THERE IS NO CYCLE??? IF THERE IS A CYCLE???
--do I need to fix backtrack? - I don't think so...
--will I ever have bug Stan was talking about - with not starting at deadend?
--finishing stack --> guaranteed to remove tail???
--have some sort of flag that indicates when you've found cycle --> if no cycle ever found
-instead of printing regularly -> call diff print function that takes every non zero number to 1?
--will I ever mark enqueued as dead??? if so --> is it a problem? - I don't think I will...*/
+*/
 
 
 /*this function takes a pointer to the top of the stack, a row and column number, and pushes a new
@@ -108,7 +97,7 @@ struct position* findStartPt (const struct image* i) {
 	/*iterate through the image*/
 	for (int j = 0; j < i->height; j++) {
 		for (int k = 0; k < i->width; k++) {
-			if (i->image[j][k] == 1) { /*found a dead end to start our search at --> set position struct values to this location*/
+			if (i->image[j][k] == 1) { /*found a nonwall block to start our search at --> set position struct values to this location*/
 				p = malloc(sizeof(struct position)); /*malloc memory for it*/
 				assert(p); /*make sure malloc worked*/
 				p->row = j;
@@ -203,6 +192,7 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 	int backCount; /*keep track of nonDeadNeighbors while backtracking*/
 	count = 0; /*initialize count variables*/
 	queueCount = 0;
+	backCount = 0;
 	count = nonDeadNeighbors(i, p->row, p->col); /*count the nondead neighbors of that location*/
 	if (count == 0) {
 		i->image[p->row][p->col] = -1; /*in edge case where graph is a straight line --> at end will have no non-dead neighbors --> hit end of chain --> dead end, should mark as -1*/
@@ -221,7 +211,7 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 				}
 			}
 		} else { /*otherwise, single non-dead neighbor needs to be enqueued and marked as enqueued, we know neighbor is in position p*/
-			i->image[p->row][p->col] = 3; /*mark this as enqueued - EVER GOING TO BE A TIME WHERE SINGLE NEIGHBOR --> NOT 2 AND NOT 1 --> ALREADY ENQUEUED --> DON'T WANT TO ENQUEUE TWICE...??? (Don't think so - this is something you just popped off the stack --> can't have enqueued neighbors, in enqueuing process now...*/
+			i->image[p->row][p->col] = 3; /*mark this as enqueued */
 			/*now push location it onto stack and increment queueCount*/
 			stackPush(s, p->row, p->col);
 			queueCount++; 
@@ -261,7 +251,7 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 		}
 	}
 
-	if (/*(queueCount == 0) &&*/(stackEmpty(s))) { /*need the queueCount check? -> if stackEmpty --> haven't enqueued anything...*/
+	if (stackEmpty(s)) { /*need the queueCount check? -> if stackEmpty --> haven't enqueued anything...*/
 		return 1; /*if stack is empty --> search is finished --> return 1*/
 	}
 	return 0; /*if you get to here --> enqNeighbors finished, no loop found, so 0 was returned, keep searching*/

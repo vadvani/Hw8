@@ -1,4 +1,4 @@
-
+/*to keep track of the top of the stack*/
 typedef struct stackElem *Stack;
 
 /*struct to keep track of the coordinate location in an array*/

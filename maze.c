@@ -13,15 +13,19 @@ Citation: Stack code modified from Stack section of Aspnes, Lecture Notes on Dat
 */
 
 /*THINGS TO DO:
-WILL THIS ALGORITHM WORK IF THERE IS NO CYCLE???
-do I need to fix backtrack?
-will I ever mark enqueued as dead??? if so --> is it a problem?
-finishing stack --> guaranteed to remove tail???
-make sure not doing anything funny with find neighbors by reusing p
-remember - CAN'T CALL FINDNEIGHBORS IF NONDEAD COUNT != 1 - make sure I don't!!!
-using right sizeof's in malloc for 2D array???
-have some sort of flag that indicates when you've found cycle --> if no cycle ever found
-instead of printing regularly -> call diff print function that takes every non zero number to 1?*/
+-check enqFunction - for general coding problems AND logic problems
+-make sure not doing anything funny with find neighbors by reusing p
+-ask Sam about p pointer in stackPush function and is it okay that using getchar? -> assuming char and int values the same???
+-in findStartPt function - end: label --> will it still return p in case that p is 0?
+-question about getchar values in createImage
+ALGORITHM ANALYSIS:
+-WILL THIS ALGORITHM ALWAYS WORK IF THERE IS NO CYCLE??? IF THERE IS A CYCLE???
+-do I need to fix backtrack? - I don't think so...
+-will I ever have bug Stan was talking about - with not starting at deadend?
+-finishing stack --> guaranteed to remove tail???
+-have some sort of flag that indicates when you've found cycle --> if no cycle ever found
+instead of printing regularly -> call diff print function that takes every non zero number to 1?
+-will I ever mark enqueued as dead??? if so --> is it a problem? - I don't think I will...*/
 
 
 /*this function takes a pointer to the top of the stack, a row and column number, and pushes a new
@@ -38,7 +42,7 @@ void stackPush (Stack *s, int row, int col) {
 	p->row = row; 
 	p->col = col;
 
-	e->p = p; /*set the position pointer in the stack element to this newly malloced position struct - DO WE REALLY NEED INTERMEDIARY P? OR CAN WE JUST MALLOC e->p??? IS THERE A PROBLEM LEAVING P THERE PTING TO IT???*/
+	e->p = p; /*set the position pointer in the stack element to this newly malloced position struct - THIS OKAY??? IS THERE A PROBLEM LEAVING P THERE PTING TO IT???*/
 
 	e->next = *s; /*set the new element next pointer to the old top of the stack*/
 	*s = e; /*update the top of the stack to the newly added element*/
@@ -58,12 +62,12 @@ struct position* stackPop (Stack *s) {
 	assert(!stackEmpty(s));  /*make sure stack isn't empty --> can't pop from it*/
 	retP=(*s)->p; /*set the return value to the position struct at the top of the stack*/
 
-	e = *s; /*set e to the top of the stack*/
+	e = *s; /*set e to the top of the stack - element we want to remove*/
 	*s = e->next; /*cut e out of the stack (top of the stack is now the second elem)*/
 
 	free(e); /*free the stack elem we're popping*/
 
-	return retP; /*return the position struct - this is still not free, it will need to be freed later*/
+	return retP; /*return the position struct - this is still malloced, it will need to be freed later*/
 }
 
 /*this function reads the input from stdin and returns a pointer to a malloced image struct that contains
@@ -95,47 +99,12 @@ struct image* imageCreate(void) {
 	return i;
 }
 
-/*this function takes in a pointer to an image, a row and a column number, and counts all the neighbors (non-zero/nonwall elements next to the 
-input location), and returns that count, input location for this program should be a path block, not a wall block*/
-int countNeighbors(const struct image* i, const int row, const int col) {
-	int count; /*integer to keep track of count*/
-	count = 0; /*start count at 0*/
-	int initialk; /*initial loop values for row and col iteration - should be 0 not -1 if row-1 or col -1 is negative, can't have negative array locations*/
-	int initialj;
 
-	/*set the initial for loop values properly*/
-	if ((row - 1) >= 0) {
-		initialk = row - 1;
-	}else {
-		initialk = 0;
-	}
-
-	if ((col - 1) >= 0) {
-		initialj = col - 1;
-	} else {
-		initialj = 0;
-	}
-
-	for (int k = initialk; (k <= row + 1) && (k < i->height); k++) {
-	 	for (int j = initialj; (j <= col + 1) && (j < i->width); j++) {
-	 		if ((j == col) && (k == row)) { /*if the j and k values equal the input values --> that can't be a neighbor, it's itself --> continue*/
-	 			continue;
-	 		} else { /*otherwise*/
-	 			if (i->image[k][j] != 0) {
-	 				count++; /*if the value is not 0 --> not a wall --> it's a neighbor --> increase the counter by 1*/
-	 			}
-	 		}
-	 	}
-	}
-	return count; /*after iterating through the 8 blocks next to the input block --> return the counter value*/
-}
-
-/*this function takes in a pointer to an image struct and returns a malloced position struct with the location of a dead end, at which
+/*this function takes in a pointer to an image struct and returns a malloced position struct with the location of the first one (path block), at which
 we can start the program and depth first search*/
-/*WHAT SHOULD THIS FUNCTION DO IF NEVER FINDS DEAD END???*/
-struct position* findStartPt (struct image* i) {
+struct position* findStartPt (const struct image* i) {
 	struct position* p; /*pter for position struct*/
-	p = 0;
+	p = 0; /*initialize p to 0, if it's still 0 at the end --> never found a start pt*/
 	/*iterate through the image*/
 	for (int j = 0; j < i->height; j++) {
 		for (int k = 0; k < i->width; k++) {
@@ -184,9 +153,9 @@ int nonDeadNeighbors(const struct image* i, const int row, const int col) {
 }
 
 /*this function takes in a MALLOCED location of a deadend node, finds the single nondead neighbor, and modifies the position struct to contain the neighbor
-of the deadend node*/
+coordinates of the deadend node*/
 /*We need to find the single, non-dead neighbor (visited node we used to reach this dead end)*/
-void findNeighbor(struct image* i, struct position* p) {
+void findNeighbor(const struct image* i, struct position* p) {
 	/*initial for loop counter value variables to make sure things aren't negative, and initial col and row values to preserve for the for loop
 	as well, since p->col and p->row will be modified*/
 	int initialk;
@@ -224,8 +193,7 @@ void findNeighbor(struct image* i, struct position* p) {
 	}
 }
 
-/*
-MAKE SURE NOT DOING ANYTHING WEIRD WITH REUSE OF P???!!!*/
+
 /*this function takes in a pointer to an image struct, a pointer to the top of a stack, and a position struct p, and sets the value of the image
 in location p to the appropriate value (2 for visited, -1 for visited but dead end), and enques all the unvisited, unenqueued neighbors
 of that location onto the stack, and returns a number, 0 if everything went fine, 1 if the search is finsihed (the stack is empty and nothing was added this round)*/
@@ -248,7 +216,7 @@ int enqNeighbors (struct image* i, Stack *s, struct position* p) {
 				findNeighbor(i, p); /*find next single neighbor to check if that's a deadend*/
 			}
 		} else { /*otherwise, single non-dead neighbor needs to be enqueued and marked as enqueued, we know neighbor is in position p*/
-			i->image[p->row][p->col] = 3; /*mark this as enqueued*/
+			i->image[p->row][p->col] = 3; /*mark this as enqueued - EVER GOING TO BE A TIME WHERE SINGLE NEIGHBOR --> NOT 2 AND NOT 1 --> ALREADY ENQUEUED --> DON'T WANT TO ENQUEUE TWICE...??? (Don't think so - this is something you just popped off the stack --> can't have enqueued neighbors, in enqueuing process now...*/
 			/*now push location it onto stack and increment queueCount*/
 			stackPush(s, p->row, p->col);
 			queueCount++; 
@@ -299,10 +267,10 @@ void printImage(const struct image* i) {
 	printf("P5 %d %d 255\n", i->width, i->height); /*print header*/
 	for (int j=0; j < i->height; j++) { /*iterate through image 2D array*/
 		for (int k=0; k < i->width; k++) {
-			if (i->image[j][k] == -1) { /*if the value is -1 --> deadend node, not part of loop --> needs to get printed as a 1*/
+			if ((i->image[j][k] == -1) || (i->image[j][k] == 3)) { /*if the value is -1 --> deadend node, not part of loop --> needs to get printed as a 1*/
 				putchar(1);
 			} else {
-				putchar(i->image[j][k]); /*otherwise print whatever is there, 2 in the loop or 0 if it's a wall*/
+				putchar(i->image[j][k]); /*otherwise print whatever is there, 2 in the loop, 1 if path or 0 if it's a wall*/
 			}
 		}
 	}
