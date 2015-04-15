@@ -269,7 +269,7 @@ void printImage(const struct image* i) {
 		for (int k=0; k < i->width; k++) {
 			if ((i->image[j][k] == -1) || (i->image[j][k] == 3) || (i->image[j][k] == 1)) { /*if the value is -1 --> deadend node, not part of loop --> needs to get printed as a 1*/
 				putchar(1);
-			} else if {
+			} else {
 				putchar(0); /*otherwise print whatever is there, 2 in the loop, 1 if path or 0 if it's a wall*/
 			}
 		}
